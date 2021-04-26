@@ -2,6 +2,7 @@ package com.example.demo.security;
 
 import com.example.demo.auth.ApplicationUserService;
 import com.example.demo.jwt.JwtTokenVerifier;
+import com.example.demo.jwt.JwtConfig;
 import com.example.demo.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,13 +24,16 @@ import static com.example.demo.security.ApplicationUserRole.*;
 public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
+    private final JwtConfig jwtConfig;
+    private final SecretKey secretKey;
 
     @Autowired
-    public ApplicationSecurityConfiguration(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService) {
+    public ApplicationSecurityConfiguration(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService, JwtConfig jwtConfig, SecretKey secretKey) {
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
+        this.jwtConfig = jwtConfig;
+        this.secretKey = secretKey;
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
